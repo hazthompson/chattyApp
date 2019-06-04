@@ -53,14 +53,20 @@ class App extends Component {
       console.log(event.target.value);
      
      
-      let newobj = {
-        id:10,
-        username: this.state.currentUser,
+      let newObj = {
+        id:11,
+        username: this.state.currentUser.name,
         content: event.target.value
       }
-      console.log(newobj)
+
+      console.log(newObj)
+      const oldMessages= this.state.messages
+      const newMessages= [...oldMessages, newObj]
+      console.log(oldMessages)
+      console.log(newMessages)
      
       console.log(this.state.content);
+      this.setState({messages:newMessages})
     }
   }
   componentDidMount() {
