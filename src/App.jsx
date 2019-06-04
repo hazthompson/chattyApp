@@ -20,6 +20,7 @@ class App extends Component {
           content: 'No, I think you lost them. You lost your marbles Bob. You lost them for good.'
         }
       ],
+
       content: '',
 
       error: '', 
@@ -28,28 +29,38 @@ class App extends Component {
         compose: true
       }
     }
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
-  onCompose(event) {
-    this.setState((prev, props) => ({
-      content: '',
-      error: '',
-      visible: {
-        compose: !prev.visible.compose
-      }
-    }));
-  }
+  // onCompose(event) {
+  //   this.setState((prev, props) => ({
+  //     content: '',
+  //     error: '',
+  //     visible: {
+  //       compose: !prev.visible.compose
+  //     }
+  //   }));
+  // }
 
-  onContent(event) {
-    this.setState({
-      content: event.target.value
-    });
-  }
+  // onContent(event) {
+  //   this.setState({
+  //     content: event.target.value
+  //   });
+  // }
 
   handleKeyPress(event){
     if (event.key === 'Enter') {
-      
-      console.log('Enter!!');
+      console.log(event.target.value);
+     
+     
+      let newobj = {
+        id:10,
+        username: this.state.currentUser,
+        content: event.target.value
+      }
+      console.log(newobj)
+     
+      console.log(this.state.content);
     }
   }
   componentDidMount() {
