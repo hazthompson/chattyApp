@@ -19,16 +19,9 @@ class App extends Component {
           username: 'Anonymous',
           content: 'No, I think you lost them. You lost your marbles Bob. You lost them for good.'
         }
-      ],
-
-      content: '',
-
-      error: '', 
-      
-      visible: {
-        compose: true
-      }
+      ]
     }
+
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
@@ -54,7 +47,7 @@ class App extends Component {
      
      
       let newObj = {
-        id:11,
+        id:12,
         username: this.state.currentUser.name,
         content: event.target.value
       }
@@ -66,9 +59,13 @@ class App extends Component {
       console.log(newMessages)
      
       console.log(this.state.content);
-      this.setState({messages:newMessages})
+      this.setState({messages: newMessages})
+      event.target.value ='';
     }
+    
+    
   }
+
   componentDidMount() {
     console.log('componentDidMount <App />');
     setTimeout(() => {
@@ -90,8 +87,8 @@ class App extends Component {
       </nav>
       <MessageList messageList={this.state.messages} />
       <ChatBar currentUser={this.state.currentUser}
-        onEnter={this.handleKeyPress} 
-        onContent={this.onContent}/>
+        onEnter={this.handleKeyPress} />
+        
       </div>
     );
   }
