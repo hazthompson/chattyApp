@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
-
+const webSocket = new WebSocket('ws://localhost:3001/');
 
 class App extends Component {
   constructor(props) {
@@ -43,25 +43,29 @@ class App extends Component {
   // }
 
   handleKeyPress(event){
+    // const webSocket = new WebSocket('ws://localhost:3001/');
     if (event.key === 'Enter') {
       console.log(event.target.value);
      
-     
-      let newObj = {
-        id:12,
-        username: this.state.currentUser.name,
-        content: event.target.value
-      }
+      const msg = event.target.value;
+      this.socket.send(msg);      
+      event.target.value = '';
 
-      console.log(newObj)
-      const oldMessages= this.state.messages
-      const newMessages= [...oldMessages, newObj]
-      console.log(oldMessages)
-      console.log(newMessages)
+      // let newObj = {
+      //   id:12,
+      //   username: this.state.currentUser.name,
+      //   content: event.target.value
+      // }
+
+      // console.log(newObj)
+      // const oldMessages= this.state.messages
+      // const newMessages= [...oldMessages, newObj]
+      // console.log(oldMessages)
+      // console.log(newMessages)
      
-      console.log(this.state.content);
-      this.setState({messages: newMessages})
-      event.target.value ='';
+      // console.log(this.state.content);
+      // this.setState({messages: newMessages})
+      // event.target.value ='';
     }
     
     
@@ -70,11 +74,22 @@ class App extends Component {
   componentDidMount() {
     console.log('componentDidMount <App />');
 
-    const webSocket = new WebSocket('ws://localhost:3001/');
+    this.socket = new WebSocket('ws://localhost:3001/');
 
-    webSocket.onopen = () => {
+      this.socket.onopen = () => {
       return console.log('Client connected to Server');
-    };
+      }
+
+      this.socket.onmessage = function(msg) {
+        console.log(msg);
+        //const message = msg.data;
+        
+        <Message 
+        username={this.state.currentUser.name} 
+        content={msg.data} 
+        />
+      }
+   
 
     // setTimeout(() => {
     //   console.log('Simulating incoming message');
