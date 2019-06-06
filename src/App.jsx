@@ -62,17 +62,17 @@ class App extends Component {
   componentDidMount() {
     this.socket = new WebSocket('ws://localhost:3001/');
 
-    this.socket.onopen = event => {
+    this.socket.onopen = () => {
       console.log('Client connected to Server');
-      console.log('event from server', event);
-      console.log('in event try to find data', event.eventPhase);
-      this.setState({ noClients: event.eventPhase });
-      console.log('state of noClients', this.state.noClients);
+      // console.log('event from server', event);
+      // console.log('in event try to find data', event.target);
+      // this.setState({ noClients: event.eventPhase });
+      // console.log('state of noClients', this.state.noClients);
     };
 
     this.socket.onmessage = event => {
       let postReceived = JSON.parse(event.data);
-      console.log('fromserver', postReceived.type);
+      console.log('fromserver', postReceived);
       switch (postReceived.type) {
         case 'incomingMessage':
           const oldPosts = this.state.messages;
@@ -85,13 +85,15 @@ class App extends Component {
             messages: [...this.state.messages, postReceived],
             currentUser: { name: postReceived.content }
           });
+          break;
+        case 'incomingClientNo':
+          console.log('post parse', postReceived);
+          console.log('event - nonparse', event);
+          this.setState({ noClients: postReceived.noClients });
       }
     };
 
-    this.socket.onclose = event => {
-      console.log('in event try to find data', event.eventPhase);
-      this.setState({ noClients: event.eventPhase });
-    };
+    this.socket.onclose = () => {};
   }
 
   render() {
