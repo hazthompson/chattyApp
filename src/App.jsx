@@ -25,7 +25,6 @@ class App extends Component {
     };
 
     return {
-      //type: 'postMessage',
       data: post
     };
   }
@@ -76,13 +75,20 @@ class App extends Component {
     };
 
     this.socket.onmessage = event => {
-      //console.log(event);
       let postReceived = JSON.parse(event.data);
-      //console.log('content', postReceived);
-      const oldPosts = this.state.messages;
-      const newPosts = [...oldPosts, postReceived];
-      //console.log(newPosts);
-      this.setState({ messages: newPosts });
+      console.log(postReceived.type);
+      switch (postReceived.type) {
+        case 'incomingMessage':
+          const oldPosts = this.state.messages;
+          const newPosts = [...oldPosts, postReceived];
+          this.setState({ messages: newPosts });
+          console.log(this.state.messages);
+          break;
+        case 'incomingNotification':
+          console.log('incomingNotification action');
+          this.setState({ currentUser: { name: postReceived.content } });
+          console.log(this.state.currentUser.name);
+      }
     };
   }
 
