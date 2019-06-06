@@ -9,8 +9,9 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentUser: { name: 'Bob' }, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: []
+      currentUser: { name: 'Anonymous' },
+      messages: [],
+      noClients: 0
     };
 
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -61,8 +62,12 @@ class App extends Component {
   componentDidMount() {
     this.socket = new WebSocket('ws://localhost:3001/');
 
-    this.socket.onopen = () => {
+    this.socket.onopen = event => {
       console.log('Client connected to Server');
+      console.log('event from server', event);
+      console.log('in event try to find data', event.eventPhase);
+      this.setState({ noClients: event.eventPhase });
+      console.log('state of noClients', this.state.noClients);
     };
 
     this.socket.onmessage = event => {
@@ -82,12 +87,17 @@ class App extends Component {
           });
       }
     };
+
+    this.socket.onclose = event => {
+      console.log('in event try to find data', event.eventPhase);
+      this.setState({ noClients: event.eventPhase });
+    };
   }
 
   render() {
     return (
       <div>
-        <NavBar />
+        <NavBar noClients={this.state.noClients} />
         <MessageList messageList={this.state.messages} />
         <ChatBar
           currentUser={this.state.currentUser}

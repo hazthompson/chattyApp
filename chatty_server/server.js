@@ -21,13 +21,21 @@ const wss = new SocketServer({ server });
 // the ws parameter in the callback.
 
 wss.on('connection', ws => {
+  ws.broadcast = function broadcast(data) {
+    wss.clients.forEach(function each(client) {
+      // if (client.readyState === wss.OPEN) {
+      client.send(data);
+      console.log('data sent: ', data);
+    });
+  };
+
   const noClients = wss.clients.size;
-  console.log(noClients);
-  console.log('client connected');
+  console.log(noClients, 'clients connected');
+  ws.broadcast(noClients);
 
   ws.on('message', message => {
     const post = JSON.parse(message).data;
-    console.log('whole received post', post);
+    //console.log('whole received post', post);
     post.id = uuidv1();
 
     if (post.type === 'postMessage') {
@@ -35,19 +43,11 @@ wss.on('connection', ws => {
     } else if (post.type === 'postNotification') {
       post.type = 'incomingNotification';
     }
-    // post.type = 'incomingMessage';
 
-    console.log('whole amended to post', post);
+    //console.log('whole amended to post', post);
 
     const postSend = JSON.stringify(post);
 
-    ws.broadcast = function broadcast(data) {
-      wss.clients.forEach(function each(client) {
-        // if (client.readyState === wss.OPEN) {
-        client.send(data);
-        console.log('data sent: ', data);
-      });
-    };
     ws.broadcast(postSend);
   });
 
@@ -55,5 +55,6 @@ wss.on('connection', ws => {
   ws.on('close', () => {
     console.log('Client disconnected');
     console.log('no clients', noClients);
+    ws.broadcast(noClients);
   });
 });
