@@ -12,6 +12,7 @@ class ChatBar extends Component {
           className="chatbar-username"
           defaultValue={this.props.currentUser.name}
           onBlur={this.props.enterUsername}
+          onKeyDown={this.props.newUsername}
         />
         <input
           className="chatbar-message"

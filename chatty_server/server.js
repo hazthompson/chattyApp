@@ -27,13 +27,18 @@ wss.on('connection', ws => {
     const post = JSON.parse(message).data;
 
     post.id = uuidv1();
+    // if ((post.type = 'postMessage')) {
+    //   post.type = 'incomingMessage';
+    // } else if ((post.type = 'postNotification')) {
+    //   post.type = 'incomingNotification';
+    // }
     post.type = 'incomingMessage';
+
     console.log('whole reveived post', post);
 
     const postSend = JSON.stringify(post);
 
     ws.broadcast = function broadcast(data) {
-      console.log('reached broadcast func');
       wss.clients.forEach(function each(client) {
         // if (client.readyState === wss.OPEN) {
         client.send(data);

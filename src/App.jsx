@@ -17,11 +17,11 @@ class App extends Component {
     this.enterNewUsername = this.enterNewUsername.bind(this);
   }
 
-  newObj(username, content) {
+  newObj(username, content, type) {
     let post = {
       username: username,
       content: content,
-      type: 'postmessage'
+      type: type
     };
 
     return {
@@ -34,21 +34,36 @@ class App extends Component {
     // const webSocket = new WebSocket('ws://localhost:3001/');
     if (event.key === 'Enter') {
       //console.log(event.target.value);
-      const msg = this.newObj(this.state.currentUser.name, event.target.value);
+      const msg = this.newObj(
+        this.state.currentUser.name,
+        event.target.value,
+        'postMessage'
+      );
       this.socket.send(JSON.stringify(msg));
-      console.log('message review:', msg);
+      //console.log('message review:', msg);
       event.target.value = '';
     }
   }
 
   enterNewUsername(event) {
     if (event.key === 'Enter') {
-      console.log(event);
+      console.log('connected! event: ', event.target.value);
+      // console.log(
+      //   `${this.state.currentUser.name} changed their username to ${
+      //     event.target.value
+      //   }`)
+      const notification = this.newObj(
+        this.state.currentUser.name,
+        event.target.value,
+        'postNotification'
+      );
+      this.socket.send(JSON.stringify(notification));
+      event.target.value = '';
     }
   }
 
   enterUsername(event) {
-    console.log('calling enterUsername', event.target.value);
+    //console.log('calling enterUsername', event.target.value);
     //console.log(this.state.currentUser);
     this.setState({ currentUser: { name: event.target.value } });
   }
@@ -61,12 +76,12 @@ class App extends Component {
     };
 
     this.socket.onmessage = event => {
-      console.log(event);
+      //console.log(event);
       let postReceived = JSON.parse(event.data);
-      console.log('content', postReceived);
+      //console.log('content', postReceived);
       const oldPosts = this.state.messages;
       const newPosts = [...oldPosts, postReceived];
-      console.log(newPosts);
+      //console.log(newPosts);
       this.setState({ messages: newPosts });
     };
   }
@@ -84,7 +99,7 @@ class App extends Component {
           currentUser={this.state.currentUser}
           enterUsername={this.enterUsername}
           enterMessage={this.handleKeyPress}
-          newUsername
+          newUsername={this.enterNewUsername}
         />
       </div>
     );
