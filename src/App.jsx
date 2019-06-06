@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
+import NavBar from './NavBar.jsx';
 const webSocket = new WebSocket('ws://localhost:3001/');
 
 class App extends Component {
@@ -30,27 +31,19 @@ class App extends Component {
   }
 
   handleKeyPress(event) {
-    // const webSocket = new WebSocket('ws://localhost:3001/');
     if (event.key === 'Enter') {
-      //console.log(event.target.value);
       const msg = this.newObj(
         this.state.currentUser.name,
         event.target.value,
         'postMessage'
       );
       this.socket.send(JSON.stringify(msg));
-      //console.log('message review:', msg);
       event.target.value = '';
     }
   }
 
   enterNewUsername(event) {
     if (event.key === 'Enter') {
-      console.log('connected! event: ', event.target.value);
-      // console.log(
-      //   `${this.state.currentUser.name} changed their username to ${
-      //     event.target.value
-      //   }`)
       const notification = this.newObj(
         this.state.currentUser.name,
         event.target.value,
@@ -62,8 +55,6 @@ class App extends Component {
   }
 
   enterUsername(event) {
-    //console.log('calling enterUsername', event.target.value);
-    //console.log(this.state.currentUser);
     this.setState({ currentUser: { name: event.target.value } });
   }
 
@@ -76,18 +67,19 @@ class App extends Component {
 
     this.socket.onmessage = event => {
       let postReceived = JSON.parse(event.data);
-      console.log(postReceived.type);
+      console.log('fromserver', postReceived.type);
       switch (postReceived.type) {
         case 'incomingMessage':
           const oldPosts = this.state.messages;
           const newPosts = [...oldPosts, postReceived];
           this.setState({ messages: newPosts });
-          console.log(this.state.messages);
           break;
         case 'incomingNotification':
-          console.log('incomingNotification action');
-          this.setState({ currentUser: { name: postReceived.content } });
-          console.log(this.state.currentUser.name);
+          postReceived.oldName = postReceived.username;
+          this.setState({
+            messages: [...this.state.messages, postReceived],
+            currentUser: { name: postReceived.content }
+          });
       }
     };
   }
@@ -95,11 +87,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <nav className="navbar">
-          <a href="/" className="navbar-brand">
-            Chatty
-          </a>
-        </nav>
+        <NavBar />
         <MessageList messageList={this.state.messages} />
         <ChatBar
           currentUser={this.state.currentUser}
