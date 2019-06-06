@@ -25,16 +25,17 @@ wss.on('connection', ws => {
 
   ws.on('message', message => {
     const post = JSON.parse(message).data;
-
+    console.log('whole received post', post);
     post.id = uuidv1();
-    // if ((post.type = 'postMessage')) {
-    //   post.type = 'incomingMessage';
-    // } else if ((post.type = 'postNotification')) {
-    //   post.type = 'incomingNotification';
-    // }
-    post.type = 'incomingMessage';
 
-    console.log('whole reveived post', post);
+    if (post.type === 'postMessage') {
+      post.type = 'incomingMessage';
+    } else if (post.type === 'postNotification') {
+      post.type = 'incomingNotification';
+    }
+    // post.type = 'incomingMessage';
+
+    console.log('whole amended to post', post);
 
     const postSend = JSON.stringify(post);
 
