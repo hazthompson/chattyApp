@@ -14,16 +14,18 @@ class App extends Component {
 
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.enterUsername = this.enterUsername.bind(this);
+    this.enterNewUsername = this.enterNewUsername.bind(this);
   }
 
   newObj(username, content) {
     let post = {
       username: username,
-      content: content
+      content: content,
+      type: 'postmessage'
     };
 
     return {
-      type: 'post',
+      //type: 'postMessage',
       data: post
     };
   }
@@ -39,8 +41,14 @@ class App extends Component {
     }
   }
 
+  enterNewUsername(event) {
+    if (event.key === 'Enter') {
+      console.log(event);
+    }
+  }
+
   enterUsername(event) {
-    console.log('caling enterUsername', event.target.value);
+    console.log('calling enterUsername', event.target.value);
     //console.log(this.state.currentUser);
     this.setState({ currentUser: { name: event.target.value } });
   }
@@ -75,7 +83,8 @@ class App extends Component {
         <ChatBar
           currentUser={this.state.currentUser}
           enterUsername={this.enterUsername}
-          onEnter={this.handleKeyPress}
+          enterMessage={this.handleKeyPress}
+          newUsername
         />
       </div>
     );

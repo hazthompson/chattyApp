@@ -15,7 +15,7 @@ class ChatBar extends Component {
         />
         <input
           className="chatbar-message"
-          onKeyDown={this.props.onEnter}
+          onKeyDown={this.props.enterMessage}
           placeholder="Type a message and hit ENTER"
         />
       </footer>
