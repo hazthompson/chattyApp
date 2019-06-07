@@ -4,12 +4,16 @@ import MessageList from './MessageList.jsx';
 import NavBar from './NavBar.jsx';
 const webSocket = new WebSocket('ws://localhost:3001/');
 
+const colors = ['#fff8a6', '#ffd19a', '#ffc5a1', '#ff9e74'];
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      currentUser: { name: 'Anonymous' },
+      currentUser: {
+        name: 'Anonymous',
+        color: colors[Math.floor(Math.random() * 4)]
+      },
       messages: [],
       noClients: 0
     };
@@ -19,9 +23,10 @@ class App extends Component {
     this.enterNewUsername = this.enterNewUsername.bind(this);
   }
 
-  newObj(username, content, type) {
+  newObj(username, userColor, content, type) {
     let post = {
       username: username,
+      userColor: userColor,
       content: content,
       type: type
     };
@@ -32,11 +37,15 @@ class App extends Component {
 
   handleKeyPress(event) {
     if (event.key === 'Enter') {
+      // const colours = ['#fff8a6', '#ffd19a', '#ffc5a1', '#ff9e74'];
       const msg = this.newObj(
         this.state.currentUser.name,
+        this.state.currentUser.color,
         event.target.value,
         'postMessage'
       );
+      // const colour = colours[Math.floor(Math.random() * 4)];
+      // const colourMessage = { msg, colour };
       this.socket.send(JSON.stringify(msg));
       event.target.value = '';
     }
@@ -46,6 +55,7 @@ class App extends Component {
     if (event.key === 'Enter') {
       const notification = this.newObj(
         event.target.value,
+        this.state.currentUser.color,
         this.state.currentUser.name,
         'postNotification'
       );
@@ -55,7 +65,12 @@ class App extends Component {
   }
 
   enterUsername(event) {
-    this.setState({ currentUser: { name: event.target.value } });
+    this.setState({
+      currentUser: {
+        name: event.target.value,
+        color: this.state.currentUser.color
+      }
+    });
   }
 
   componentDidMount() {
@@ -72,13 +87,18 @@ class App extends Component {
         case 'incomingMessage':
           const oldPosts = this.state.messages;
           const newPosts = [...oldPosts, postReceived];
-          this.setState({ messages: newPosts });
+          this.setState({
+            messages: newPosts
+          });
           break;
         case 'incomingNotification':
           postReceived.oldName = postReceived.content;
           this.setState({
             messages: [...this.state.messages, postReceived],
-            currentUser: { name: postReceived.content }
+            currentUser: {
+              name: postReceived.content,
+              color: postReceived.userColor
+            }
           });
           break;
         case 'incomingClientNo':

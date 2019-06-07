@@ -3,15 +3,15 @@ h1 {
 }
 
 body {
-  background: white;
+  background: #e7eaf6;
   color: black;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   margin: 70px 0;
 }
 
 .chatbar {
-  background: tomato;
+  background: #113f67;
   border-top: 1px solid black;
   bottom: 0;
   display: flex;
@@ -23,7 +23,8 @@ body {
 
 .chatbar-message,
 .chatbar-username {
-  border: 1px solid black;
+  border: 1px solid #e7eaf6;
+  border-radius: 5px;
   display: block;
   height: 40px;
   line-height: 40px;
@@ -58,6 +59,8 @@ body {
 
 .message-content {
   flex: 8;
+  border: solid 3px #5588a3;
+  border-radius: 50px 20px;
 }
 
 .message-username {
@@ -66,7 +69,7 @@ body {
 }
 
 .navbar {
-  background: tomato;
+  background: #113f67;
   border-bottom: 1px solid black;
   height: 60px;
   left: 0;
@@ -78,11 +81,12 @@ body {
   .ClientsDisplay {
     float: right;
     line-height: 60px;
+    color: #e7eaf6;
   }
 }
 
 .navbar-brand {
-  color: inherit;
+  color: #e7eaf6;
   display: block;
   float: left;
   font-weight: 700;

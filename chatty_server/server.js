@@ -44,6 +44,7 @@ wss.on('connection', ws => {
 
   ws.on('message', message => {
     const post = JSON.parse(message).data;
+    console.log(post);
     post.id = uuidv1();
 
     if (post.type === 'postMessage') {
