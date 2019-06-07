@@ -14,6 +14,8 @@ npm start
 open http://localhost:3000
 ```
 
+## Final Project
+
 !["Screenshot of homepage"](https://github.com/hazthompson/chattyApp/blob/master/docs/ChattyApp%20homepage.png?raw=true)
 
 ### Dependencies
