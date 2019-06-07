@@ -5,7 +5,6 @@ class ChatBar extends Component {
     super(props);
   }
   render() {
-    const POST_LENGTH_MAX = 140;
     return (
       <footer className="chatbar">
         <input
