@@ -19,7 +19,7 @@ class Message extends Component {
             className="message-username"
             style={{ color: this.props.message.userColor }}
           >
-            {this.props.message.username}
+            <em>{this.props.message.username}</em>
           </span>
           <span className="message-content">{this.props.message.content}</span>
         </div>
