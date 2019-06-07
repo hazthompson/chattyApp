@@ -4,7 +4,14 @@ import MessageList from './MessageList.jsx';
 import NavBar from './NavBar.jsx';
 const webSocket = new WebSocket('ws://localhost:3001/');
 
-const colors = ['#fff8a6', '#ffd19a', '#ffc5a1', '#ff9e74'];
+const colors = [
+  '#fff8a6',
+  '#ffd19a',
+  '#ffc5a1',
+  '#ff9e74',
+  '#ff6337',
+  '#ee5a5a'
+];
 class App extends Component {
   constructor(props) {
     super(props);
@@ -12,7 +19,7 @@ class App extends Component {
     this.state = {
       currentUser: {
         name: 'Anonymous',
-        color: colors[Math.floor(Math.random() * 4)]
+        color: colors[Math.floor(Math.random() * 6)]
       },
       messages: [],
       noClients: 0
