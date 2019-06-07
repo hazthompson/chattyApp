@@ -89,7 +89,6 @@ class App extends Component {
 
     this.socket.onmessage = event => {
       let postReceived = JSON.parse(event.data);
-      console.log('fromserver', postReceived);
       switch (postReceived.type) {
         case 'incomingMessage':
           const oldPosts = this.state.messages;
@@ -119,7 +118,10 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NavBar noClients={this.state.noClients} />
+        <NavBar
+          noClients={this.state.noClients}
+          username={this.state.currentUser.name}
+        />
         <MessageList messageList={this.state.messages} />
         <ChatBar
           currentUser={this.state.currentUser}

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 class Message extends Component {
   render() {
-    console.log('props', this.props);
     if (this.props.message.type === 'incomingNotification') {
       return (
         <div className="message system">
