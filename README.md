@@ -1,8 +1,8 @@
 # Chatty App
 
-A simple is a full stack web application build with React, Websockets and Express.
+A full stack web application build with React, Websockets and Express.
 
-This app is a simple chat app which allows multiple clients to join a conversation, change their username and view how many clients are currently online.
+This is a simple chat app which allows multiple clients to join a conversation, change their username and view how many clients are currently online.
 
 ## Getting started
 
