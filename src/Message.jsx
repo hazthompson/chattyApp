@@ -8,7 +8,7 @@ class Message extends Component {
         <div className="message system">
           <span>
             {this.props.message.oldName} changed their username to&nbsp;
-            {this.props.message.content}
+            {this.props.message.username}
           </span>
         </div>
       );

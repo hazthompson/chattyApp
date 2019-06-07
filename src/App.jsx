@@ -25,7 +25,6 @@ class App extends Component {
       content: content,
       type: type
     };
-
     return {
       data: post
     };
@@ -46,8 +45,8 @@ class App extends Component {
   enterNewUsername(event) {
     if (event.key === 'Enter') {
       const notification = this.newObj(
-        this.state.currentUser.name,
         event.target.value,
+        this.state.currentUser.name,
         'postNotification'
       );
       this.socket.send(JSON.stringify(notification));
@@ -64,10 +63,6 @@ class App extends Component {
 
     this.socket.onopen = () => {
       console.log('Client connected to Server');
-      // console.log('event from server', event);
-      // console.log('in event try to find data', event.target);
-      // this.setState({ noClients: event.eventPhase });
-      // console.log('state of noClients', this.state.noClients);
     };
 
     this.socket.onmessage = event => {
@@ -80,15 +75,13 @@ class App extends Component {
           this.setState({ messages: newPosts });
           break;
         case 'incomingNotification':
-          postReceived.oldName = postReceived.username;
+          postReceived.oldName = postReceived.content;
           this.setState({
             messages: [...this.state.messages, postReceived],
             currentUser: { name: postReceived.content }
           });
           break;
         case 'incomingClientNo':
-          console.log('post parse', postReceived);
-          console.log('event - nonparse', event);
           this.setState({ noClients: postReceived.noClients });
       }
     };

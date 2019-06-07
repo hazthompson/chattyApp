@@ -74,6 +74,11 @@ body {
   position: fixed;
   right: 0;
   top: 0;
+
+  .ClientsDisplay {
+    float: right;
+    line-height: 60px;
+  }
 }
 
 .navbar-brand {
