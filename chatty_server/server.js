@@ -2,10 +2,10 @@ const express = require('express');
 const SocketServer = require('ws').Server;
 const uuidv1 = require('uuid/v1');
 
-// Set the port to 3001
+// Port set to 3001
 const PORT = 3001;
 
-// Create a new express server
+// new express server
 const server = express()
   // Make the express server serve static assets (html, javascript, css) from the /public folder
   .use(express.static('public'))
@@ -13,21 +13,18 @@ const server = express()
     console.log(`Listening on ${PORT}`)
   );
 
-// Create the WebSockets server
+// the WebSockets server
 const wss = new SocketServer({ server });
 
-// Set up a callback that will run when a client connects to the server
-// When a client connects they are assigned a socket, represented by
-// the ws parameter in the callback.
-
+//callback that will run when a client connects to the server and updates 'users online display'
 wss.on('connection', ws => {
   ws.broadcast = function broadcast(data) {
     wss.clients.forEach(function each(client) {
       client.send(data);
-      console.log('data sent: ', data);
     });
   };
 
+  //function to pass 'no clients online' as an object to client to read
   function noClientObj() {
     obj = {
       type: 'incomingClientNo',
@@ -36,15 +33,12 @@ wss.on('connection', ws => {
     const clientString = JSON.stringify(obj);
     return clientString;
   }
-
   const clientString = noClientObj();
-
-  console.log(noClientObj, 'clients connected');
   ws.broadcast(clientString);
 
+  //store new messages/notification from client and send back as stringified onbjects to client
   ws.on('message', message => {
     const post = JSON.parse(message).data;
-    console.log(post);
     post.id = uuidv1();
 
     if (post.type === 'postMessage') {
@@ -54,11 +48,10 @@ wss.on('connection', ws => {
     }
 
     const postSend = JSON.stringify(post);
-
     ws.broadcast(postSend);
   });
 
-  // Set up a callback for when a client closes the socket. This usually means they closed their browser.
+  // Set up a callback for when a client closes the socket to update 'users online display'
   ws.on('close', () => {
     ws.broadcast(clientString);
   });

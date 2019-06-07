@@ -4,6 +4,7 @@ import MessageList from './MessageList.jsx';
 import NavBar from './NavBar.jsx';
 const webSocket = new WebSocket('ws://localhost:3001/');
 
+//array for randomizing color to asign to username
 const colors = [
   '#fff8a6',
   '#ffd19a',
@@ -30,6 +31,7 @@ class App extends Component {
     this.enterNewUsername = this.enterNewUsername.bind(this);
   }
 
+  //object creator function to send data to server
   newObj(username, userColor, content, type) {
     let post = {
       username: username,
@@ -42,22 +44,22 @@ class App extends Component {
     };
   }
 
+  //function to capture new message input 'on enter' and send to server
   handleKeyPress(event) {
     if (event.key === 'Enter') {
-      // const colours = ['#fff8a6', '#ffd19a', '#ffc5a1', '#ff9e74'];
       const msg = this.newObj(
         this.state.currentUser.name,
         this.state.currentUser.color,
         event.target.value,
         'postMessage'
       );
-      // const colour = colours[Math.floor(Math.random() * 4)];
-      // const colourMessage = { msg, colour };
+
       this.socket.send(JSON.stringify(msg));
       event.target.value = '';
     }
   }
 
+  //function to capture changed username input 'on enter' and send to server as notification
   enterNewUsername(event) {
     if (event.key === 'Enter') {
       const notification = this.newObj(
@@ -71,6 +73,7 @@ class App extends Component {
     }
   }
 
+  //updating new username while keeping previous color
   enterUsername(event) {
     this.setState({
       currentUser: {
@@ -83,10 +86,12 @@ class App extends Component {
   componentDidMount() {
     this.socket = new WebSocket('ws://localhost:3001/');
 
+    //action taken when socket connection opened
     this.socket.onopen = () => {
       console.log('Client connected to Server');
     };
 
+    //action taken when message received from server (state updates)
     this.socket.onmessage = event => {
       let postReceived = JSON.parse(event.data);
       switch (postReceived.type) {

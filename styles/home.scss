@@ -83,6 +83,11 @@ body {
     line-height: 60px;
     color: #e7eaf6;
   }
+
+  .chatty {
+    font-family: 'Satisfy', cursive;
+    font-size: 170%;
+  }
 }
 
 .navbar-brand {
@@ -95,4 +100,10 @@ body {
   line-height: 60px;
   padding: 0 10px;
   text-decoration: none;
+}
+
+.notification {
+  font-family: 'Satisfy', cursive;
+  color: #113f67;
+  font-size: 180%;
 }
