@@ -28,7 +28,6 @@ class App extends Component {
 
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.enterUsername = this.enterUsername.bind(this);
-    this.enterNewUsername = this.enterNewUsername.bind(this);
   }
 
   //object creator function to send data to server
@@ -59,28 +58,23 @@ class App extends Component {
     }
   }
 
-  //function to capture changed username input 'on enter' and send to server as notification
-  enterNewUsername(event) {
-    if (event.key === 'Enter') {
-      const notification = this.newObj(
-        event.target.value,
-        this.state.currentUser.color,
-        this.state.currentUser.name,
-        'postNotification'
-      );
-      this.socket.send(JSON.stringify(notification));
-      event.target.value = '';
-    }
-  }
-
   //updating new username while keeping previous color
   enterUsername(event) {
+    const newName = event.target.value;
+    const { currentUser } = this.state;
     this.setState({
       currentUser: {
-        name: event.target.value,
-        color: this.state.currentUser.color
+        name: newName,
+        color: currentUser.color
       }
     });
+    const notification = this.newObj(
+      newName,
+      currentUser.color,
+      currentUser.name,
+      'postNotification'
+    );
+    this.socket.send(JSON.stringify(notification));
   }
 
   componentDidMount() {
@@ -107,7 +101,7 @@ class App extends Component {
           this.setState({
             messages: [...this.state.messages, postReceived],
             currentUser: {
-              name: postReceived.content,
+              name: postReceived.username,
               color: postReceived.userColor
             }
           });
@@ -132,7 +126,6 @@ class App extends Component {
           currentUser={this.state.currentUser}
           enterUsername={this.enterUsername}
           enterMessage={this.handleKeyPress}
-          newUsername={this.enterNewUsername}
         />
       </div>
     );
