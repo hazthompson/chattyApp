@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Message from './Message.jsx';
 
 class MessageList extends Component {
@@ -10,4 +11,13 @@ class MessageList extends Component {
     return <main className="messages">{allMessages}</main>;
   }
 }
+
+MessageList.propTypes = {
+  messageList: PropTypes.array
+};
+
+MessageList.defaultPropTypes = {
+  messageList: []
+};
+
 export default MessageList;

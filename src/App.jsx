@@ -88,13 +88,14 @@ class App extends Component {
     this.socket.onmessage = event => {
       let postReceived = JSON.parse(event.data);
       switch (postReceived.type) {
-        case 'incomingMessage':
+        case 'incomingMessage': {
           const oldPosts = this.state.messages;
           const newPosts = [...oldPosts, postReceived];
           this.setState({
             messages: newPosts
           });
           break;
+        }
         case 'incomingNotification':
           postReceived.oldName = postReceived.content;
           this.setState({
