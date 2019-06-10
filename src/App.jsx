@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
 import NavBar from './NavBar.jsx';
-const webSocket = new WebSocket('ws://localhost:3001/');
 
 //array for randomizing color to asign to username
 const colors = [
