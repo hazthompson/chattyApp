@@ -6,12 +6,12 @@ const webSocket = new WebSocket('ws://localhost:3001/');
 
 //array for randomizing color to asign to username
 const colors = [
-  '#fff8a6',
-  '#ffd19a',
-  '#ffc5a1',
-  '#ff9e74',
-  '#ff6337',
-  '#ee5a5a'
+  '#fd5f00',
+  '#05004e',
+  '#76b39d',
+  '#900048',
+  '#00faac',
+  '#ff4057'
 ];
 class App extends Component {
   constructor(props) {
