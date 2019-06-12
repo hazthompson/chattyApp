@@ -99,11 +99,7 @@ class App extends Component {
         case 'incomingNotification':
           postReceived.oldName = postReceived.content;
           this.setState({
-            messages: [...this.state.messages, postReceived],
-            currentUser: {
-              name: postReceived.username,
-              color: postReceived.userColor
-            }
+            messages: [...this.state.messages, postReceived]
           });
           break;
         case 'incomingClientNo':
