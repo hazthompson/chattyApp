@@ -33,6 +33,7 @@ wss.on('connection', ws => {
     const clientString = JSON.stringify(obj);
     return clientString;
   }
+
   const clientString = noClientObj();
   ws.broadcast(clientString);
 
@@ -53,6 +54,6 @@ wss.on('connection', ws => {
 
   // Set up a callback for when a client closes the socket to update 'users online display'
   ws.on('close', () => {
-    ws.broadcast(clientString);
+    ws.broadcast(noClientObj());
   });
 });
